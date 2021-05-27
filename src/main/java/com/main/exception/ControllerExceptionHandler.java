@@ -11,33 +11,39 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.main.dto.ErrorMessage;
 
-
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
-	@ExceptionHandler(value = { InvalidTokenException.class})
+	@ExceptionHandler(value = { InvalidTokenException.class })
 	public ResponseEntity<ErrorMessage> loginExceptionHandel(Exception ex, WebRequest request) {
 		final Date date = new Date();
-		ErrorMessage message = new ErrorMessage( date, ex.getMessage());
+		ErrorMessage message = new ErrorMessage(date, ex.getMessage());
 
 		return new ResponseEntity<ErrorMessage>(message, HttpStatus.UNAUTHORIZED);
 	}
-	
-	@ExceptionHandler(value = { ComponentTyepNotFoundException.class})
+
+	@ExceptionHandler(value = { ComponentTyepNotFoundException.class })
 	public ResponseEntity<ErrorMessage> invalidLoginCredentialHandel(Exception ex, WebRequest request) {
 		final Date date = new Date();
-		ErrorMessage message = new ErrorMessage( date, ex.getMessage());
+		ErrorMessage message = new ErrorMessage(date, ex.getMessage());
 
 		return new ResponseEntity<ErrorMessage>(message, HttpStatus.BAD_REQUEST);
 	}
-	
-	@ExceptionHandler(NoHandlerFoundException.class)
-    public ResponseEntity<ErrorMessage> handleError404(Exception ex, WebRequest request) {
+
+	@ExceptionHandler(value = { SomethingWentWrong.class })
+	public ResponseEntity<ErrorMessage> someThingWentWrong(Exception ex, WebRequest request) {
 		final Date date = new Date();
-		ErrorMessage message = new ErrorMessage( date, ex.getMessage());
+		ErrorMessage message = new ErrorMessage(date, ex.getMessage());
+
+		return new ResponseEntity<ErrorMessage>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@ExceptionHandler(NoHandlerFoundException.class)
+	public ResponseEntity<ErrorMessage> handleError404(Exception ex, WebRequest request) {
+		final Date date = new Date();
+		ErrorMessage message = new ErrorMessage(date, ex.getMessage());
 
 		return new ResponseEntity<ErrorMessage>(message, HttpStatus.NOT_FOUND);
 	}
-	
-	
+
 }

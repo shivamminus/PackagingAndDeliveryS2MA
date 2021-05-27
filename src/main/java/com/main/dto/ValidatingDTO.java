@@ -2,9 +2,14 @@ package com.main.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
+/*ValidatingDTO Example
+{
+	validStatus:false
+}*/
 public class ValidatingDTO {
 
-	@JsonProperty
+	
 	private boolean validStatus;
 
 	public ValidatingDTO(boolean validStatus) {

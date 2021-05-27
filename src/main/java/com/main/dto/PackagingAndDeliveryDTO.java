@@ -1,25 +1,26 @@
 package com.main.dto;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.NoArgsConstructor;
-@NoArgsConstructor
+/*Example 
+{
+	charge: 500.0
+}*/
 public class PackagingAndDeliveryDTO {
-	
-	@JsonProperty
-	private Double charge;
-		@JsonIgnore
-		public  PackagingAndDeliveryDTO(double charge) {
-			this.charge=charge;
-		}
-		@JsonIgnore
-		public Double getCharge() {
-			return charge;
-		}
-		@JsonIgnore
-		public void setCharge(Double charge) {
-			this.charge = charge;
-		}
 
+	private Double charge;
+
+	public PackagingAndDeliveryDTO() {
+	}
+
+	public PackagingAndDeliveryDTO(double charge) {
+		this.charge = charge;
+	}
+
+	public Double getCharge() {
+		return charge;
+	}
+
+	public void setCharge(Double charge) {
+		this.charge = charge;
+	}
 
 }

@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.main.client.AuthClient;
 import com.main.dto.PackagingAndDeliveryDTO;
 import com.main.exception.InvalidTokenException;
+import com.main.exception.SomethingWentWrong;
 import com.main.service.PackagingAndDeliveryService;
 
 import feign.FeignException;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping(value = "/packagedelivery")
@@ -28,6 +28,17 @@ public class PackagingAndDeliveryController {
 	@Autowired
 	private AuthClient authClient;
 
+	/*
+	 * This function will calculate packaging and delivery charges
+	 * 
+	 * @header String token
+	 * 
+	 * @params String type
+	 * 
+	 * @params String count
+	 * 
+	 * @return PackagingAndDeliveryDTO
+	 */
 	@PostMapping(path = "/getPackagingDeliveryCharge/{type}/{count}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PackagingAndDeliveryDTO> calculatePackagingAndDeliveryCharge(@PathVariable String type,
 			@PathVariable Integer count, @RequestHeader(name = "Authorization", required = true) String token)
@@ -43,13 +54,14 @@ public class PackagingAndDeliveryController {
 			return new ResponseEntity<>(packagingAndDeliveryService.calculatePackagingAndDeliveryCharge(type, count),
 					HttpStatus.OK);
 
-		} catch (Exception e) {
-			return new ResponseEntity<>(packagingAndDeliveryService.calculatePackagingAndDeliveryCharge(type, count),
-					HttpStatus.FORBIDDEN);
+		} catch (Exception serverError) {
+			throw new SomethingWentWrong("Sorry Something went wrong, try again later");
+//			return new ResponseEntity<>(packagingAndDeliveryService.calculatePackagingAndDeliveryCharge(type, count),
+//					HttpStatus.FORBIDDEN);
 		}
 	}
 
-	@GetMapping(path = "/health-check")
+	@GetMapping(path = "/connection-check")
 	public ResponseEntity<String> healthCheck(@RequestHeader(name = "Authorization", required = true) String token)
 			throws InvalidTokenException {
 		try {
