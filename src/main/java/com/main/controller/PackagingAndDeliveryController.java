@@ -1,5 +1,7 @@
 package com.main.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.main.PackagingAndDeliveryS2MaApplication;
 import com.main.client.AuthClient;
 import com.main.dto.PackagingAndDeliveryDTO;
 import com.main.exception.InvalidTokenException;
@@ -22,6 +25,9 @@ import feign.FeignException;
 @RestController
 @RequestMapping(value = "/packagedelivery")
 public class PackagingAndDeliveryController {
+	
+	private static Logger logger = LoggerFactory.getLogger(PackagingAndDeliveryController.class);
+
 
 	@Autowired
 	private PackagingAndDeliveryService packagingAndDeliveryService;
@@ -43,13 +49,12 @@ public class PackagingAndDeliveryController {
 	public ResponseEntity<PackagingAndDeliveryDTO> calculatePackagingAndDeliveryCharge(@PathVariable String type,
 			@PathVariable Integer count, @RequestHeader(name = "Authorization", required = true) String token)
 			throws InvalidTokenException {
-		
-		
+
 		if (!authClient.getsValidity(token).isValidStatus()) {
 
 			throw new InvalidTokenException("Token is either expired or invalid...");
 		}
-		
+
 		try {
 			return new ResponseEntity<>(packagingAndDeliveryService.calculatePackagingAndDeliveryCharge(type, count),
 					HttpStatus.OK);
@@ -62,19 +67,9 @@ public class PackagingAndDeliveryController {
 	}
 
 	@GetMapping(path = "/connection-check")
-	public ResponseEntity<String> healthCheck(@RequestHeader(name = "Authorization", required = true) String token)
-			throws InvalidTokenException {
-		try {
-			if (!authClient.getsValidity(token).isValidStatus()) {
+	public ResponseEntity<String> healthCheck() {
 
-				throw new InvalidTokenException("Token is either expired or invalid...");
-			}
-
-		} catch (FeignException e) {
-			throw new InvalidTokenException("Token is either expired or invalid...");
-
-		}
-		System.out.println("PackagingAndDelivery Microservice is Up and Running....");
+		logger.info("PackagingAndDelivery Microservice is Up and Running....");
 		return new ResponseEntity<>("OK", HttpStatus.OK);
 	}
 
