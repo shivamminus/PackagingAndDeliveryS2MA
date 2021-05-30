@@ -16,7 +16,7 @@ public class PackagingAndDeliveryS2MaApplication {
 	private static Logger logger = LoggerFactory.getLogger(PackagingAndDeliveryS2MaApplication.class);
 
 	public static void main(String[] args) {
-        System.setProperty("server.connection-timeout","120000");
+//        System.setProperty("server.connection-timeout","120000");
 		SpringApplication.run(PackagingAndDeliveryS2MaApplication.class, args);
 	}
 
