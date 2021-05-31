@@ -46,13 +46,15 @@ public class PackagingAndDeliveryController {
 	 * @return PackagingAndDeliveryDTO
 	 */
 	@PostMapping(path = "/getPackagingDeliveryCharge/{type}/{count}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PackagingAndDeliveryDTO> calculatePackagingAndDeliveryCharge(@PathVariable String type,
+	public ResponseEntity<?> calculatePackagingAndDeliveryCharge(@PathVariable String type,
 			@PathVariable Integer count, @RequestHeader(name = "Authorization", required = true) String token)
 			throws InvalidTokenException {
 
 		if (!authClient.getsValidity(token).isValidStatus()) {
 
-			throw new InvalidTokenException("Token is either expired or invalid...");
+//			throw new InvalidTokenException("Token is either expired or invalid...");
+			return new ResponseEntity<>("Token is either expired or invalid...",
+					HttpStatus.FORBIDDEN);
 		}
 
 		try {
@@ -60,17 +62,18 @@ public class PackagingAndDeliveryController {
 					HttpStatus.OK);
 
 		} catch (Exception serverError) {
-			throw new SomethingWentWrong("Sorry Something went wrong, try again later");
-//			return new ResponseEntity<>(packagingAndDeliveryService.calculatePackagingAndDeliveryCharge(type, count),
-//					HttpStatus.FORBIDDEN);
+//			throw new SomethingWentWrong("Sorry Something went wrong, try again later");
+			return new ResponseEntity<>("Sorry Something went wrong, try again later",
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	@GetMapping(path = "/connection-check")
-	public ResponseEntity<String> healthCheck() {
-
-		logger.info("PackagingAndDelivery Microservice is Up and Running....");
-		return new ResponseEntity<>("OK", HttpStatus.OK);
-	}
+	/*
+	 * @GetMapping(path = "/connection-check") public ResponseEntity<String>
+	 * healthCheck() {
+	 * 
+	 * logger.info("PackagingAndDelivery Microservice is Up and Running....");
+	 * return new ResponseEntity<>("OK", HttpStatus.OK); }
+	 */
 
 }
