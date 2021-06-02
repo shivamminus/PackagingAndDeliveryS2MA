@@ -8,7 +8,7 @@ import com.main.dto.ValidatingDTO;
 
 
 //@FeignClient(name = "AUTH-SERVICE", url = "http://localhost:9090/auth")
-@FeignClient(name = "AUTH-SERVICE", url = "http://localhost:8081/auth")
+@FeignClient(name = "AUTH-SERVICE", url = "http://s2ma-pod3.us-east-2.elasticbeanstalk.com/auth")
 
 public interface AuthClient {
 	
