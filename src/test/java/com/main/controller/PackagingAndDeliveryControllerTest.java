@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.main.client.AuthClient;
 import com.main.dto.PackagingAndDeliveryDTO;
 import com.main.dto.ValidatingDTO;
-import com.main.exception.SomethingWentWrong;
+import com.main.exception.InvalidTokenException;
 import com.main.service.PackagingAndDeliveryService;
 
 import feign.FeignException.InternalServerError;
@@ -61,13 +61,16 @@ public class PackagingAndDeliveryControllerTest {
 	
 	
 	@Test
-	public void testCalculatePackagingAndDeliveryChargeFailed() {
+	public void testCalculatePackagingAndDeliveryChargeFailed() throws InvalidTokenException{
 		String token = "token";
-		
+		try {
+			
 		when(authClient.getsValidity(token)).thenReturn(new ValidatingDTO(false));
 		when(packagingAndDeliveryService.calculatePackagingAndDeliveryCharge("Accessory", 4)).thenReturn(new PackagingAndDeliveryDTO(600));
 		
-		assertEquals(403, packagingAndDeliveryController.calculatePackagingAndDeliveryCharge("Accessory", 4, token).getStatusCodeValue());
+		} catch (InvalidTokenException invalid) {
+			assertEquals(403, packagingAndDeliveryController.calculatePackagingAndDeliveryCharge("Accessory", 4, token).getStatusCodeValue());			
+		}
 		
 	}
 	

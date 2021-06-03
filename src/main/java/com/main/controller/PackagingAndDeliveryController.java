@@ -52,9 +52,8 @@ public class PackagingAndDeliveryController {
 
 		if (!authClient.getsValidity(token).isValidStatus()) {
 
-//			throw new InvalidTokenException("Token is either expired or invalid...");
-			return new ResponseEntity<>("Token is either expired or invalid...",
-					HttpStatus.FORBIDDEN);
+			throw new InvalidTokenException("Token is either expired or invalid...");
+
 		}
 
 		try {
@@ -62,18 +61,11 @@ public class PackagingAndDeliveryController {
 					HttpStatus.OK);
 
 		} catch (Exception serverError) {
-//			throw new SomethingWentWrong("Sorry Something went wrong, try again later");
 			return new ResponseEntity<>("Sorry Something went wrong, try again later",
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	/*
-	 * @GetMapping(path = "/connection-check") public ResponseEntity<String>
-	 * healthCheck() {
-	 * 
-	 * logger.info("PackagingAndDelivery Microservice is Up and Running....");
-	 * return new ResponseEntity<>("OK", HttpStatus.OK); }
-	 */
+
 
 }
