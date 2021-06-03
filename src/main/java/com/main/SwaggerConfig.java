@@ -15,7 +15,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableAutoConfiguration
 public class SwaggerConfig {
 	
-	
 	/**
 	 * Docket is a builder which is intended to be the primary interface 
 	 * into the Springfox framework. 
@@ -23,7 +22,7 @@ public class SwaggerConfig {
 	 */
 	@Bean
 	public Docket api() {
-		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())
+		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage( "com.main" ))
 				.paths(PathSelectors.any()).build();
 	}
 }

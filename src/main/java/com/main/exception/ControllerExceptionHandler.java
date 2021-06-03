@@ -45,5 +45,14 @@ public class ControllerExceptionHandler {
 
 		return new ResponseEntity<ErrorMessage>(message, HttpStatus.NOT_FOUND);
 	}
+	
+	@ExceptionHandler(value = { Exception.class })
+	public ResponseEntity<?> allExceptions(Exception ex, WebRequest request) {
+
+		final Date date = new Date();
+		ErrorMessage message = new ErrorMessage(date, ex.getMessage());
+
+		return new ResponseEntity<ErrorMessage>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 
 }

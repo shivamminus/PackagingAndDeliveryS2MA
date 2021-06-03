@@ -31,24 +31,22 @@ public class PackagingAndDeliveryControllerTest {
 
 	@Mock
 	private AuthClient authClient;
-
 	
+	
+	/*
+	 * Test for PackagingAnddeliveryController is LOADING OR NOT
+	 */
 	@Test
     @DisplayName("Checking if PackagingAndDeliveryController is working or not.")
     void packagingAndDeliveryControllerIsLoaded(){
         assertThat(packagingAndDeliveryController).isNotNull();    
     }
 	
+
+	
 	/*
-	 * @Test void testHealthCheck() {
-	 * 
-	 * assertEquals("200 OK",packagingAndDeliveryController.healthCheck().
-	 * getStatusCode().toString());
-	 * 
-	 * }
+	 * Test for PackagingAnddelivery Controller for SUCCESSFUL RESPONSE
 	 */
-	
-	
 	@Test
 	public void testCalculatePackagingAndDeliveryCharge() {
 		String token = "token";
@@ -59,7 +57,9 @@ public class PackagingAndDeliveryControllerTest {
 		
 	}
 	
-	
+	/*
+	 * Test for PackagingAnddelivery Controller for Unauthorized Response
+	 */
 	@Test
 	public void testCalculatePackagingAndDeliveryChargeFailed() throws InvalidTokenException{
 		String token = "token";
@@ -74,6 +74,9 @@ public class PackagingAndDeliveryControllerTest {
 		
 	}
 	
+	/*
+	 * Test for PackagingAnddelivery Controller for BAD REQUEST
+	 */
 	@Test
 	public void testCalculatePackagingAndDeliveryChargeFailedError() {
 		String token = "token";
